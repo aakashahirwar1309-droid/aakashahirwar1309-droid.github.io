@@ -1,280 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FreeToolsHub - Free Online Tools</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FreeToolsHub - रोज़मर्रा के मुफ्त ऑनलाइन टूल्स</title>
+<meta name="description" content="FreeToolsHub पर रोज़मर्रा के काम के लिए मुफ्त ऑनलाइन टूल्स: QR Code, Image Compressor, Resizer, Calculator, Password Generator, Text Tools और Product Search.">
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f5f7fb;
-  color:#172033;
-}
-header{
-  background:#172a46;
-  color:white;
-  text-align:center;
-  padding:28px 15px;
-}
-header h1{margin:0 0 8px;font-size:30px}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}
+header{background:#172a46;color:#fff;text-align:center;padding:24px 14px}
+header h1{margin:0 0 8px;font-size:28px}
 header p{margin:0;color:#dce6f5}
-
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:20px;
-}
-.search{
-  width:100%;
-  padding:15px;
-  border:1px solid #ddd;
-  border-radius:12px;
-  font-size:16px;
-  margin-bottom:20px;
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:15px;
-}
-.card{
-  background:white;
-  padding:22px;
-  border-radius:16px;
-  box-shadow:0 3px 15px #00000012;
-}
-.card h2{margin-top:0;font-size:20px}
-button{
-  background:#1769e0;
-  color:white;
-  border:0;
-  padding:12px 18px;
-  border-radius:9px;
-  cursor:pointer;
-  font-size:15px;
-}
-input,textarea{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border:1px solid #ccc;
-  border-radius:9px;
-  font-size:15px;
-}
-.tool{
-  display:none;
-  background:white;
-  padding:20px;
-  margin-top:20px;
-  border-radius:16px;
-}
-footer{
-  text-align:center;
-  padding:30px;
-  color:#777;
-}
+.container{max-width:1050px;margin:auto;padding:18px}
+.search{width:100%;padding:14px;border:1px solid #ddd;border-radius:12px;font-size:16px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
+.card{background:#fff;padding:18px;border-radius:16px;box-shadow:0 3px 15px #00000012}
+.card h2{font-size:20px;margin:0 0 8px}
+.card p{color:#666;line-height:1.45}
+button,.btn{background:#1769e0;color:#fff;border:0;padding:11px 15px;border-radius:9px;cursor:pointer;font-size:15px;text-decoration:none;display:inline-block;margin:4px 3px 4px 0}
+button.secondary{background:#555}
+input,textarea,select{width:100%;padding:11px;border:1px solid #ccc;border-radius:9px;margin:6px 0;font-size:15px}
+.tool{display:none;background:#fff;margin:15px 0;padding:20px;border-radius:16px}
+.result{background:#f0f4fa;padding:12px;border-radius:9px;margin-top:10px;white-space:pre-wrap;word-break:break-word}
+#qrcode{margin:15px auto;text-align:center}
+img.preview{max-width:100%;max-height:300px;border-radius:10px;margin-top:10px}
+.note{font-size:13px;color:#666}
+footer{text-align:center;padding:30px;color:#777}
+.price-links a{display:block;margin:8px 0}
+.hide{display:none}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
-
 <body>
 
 <header>
-  <h1>🛠️ FreeToolsHub</h1>
-  <p>Simple & Free Online Tools</p>
+<h1>🛠️ FreeToolsHub</h1>
+<p>रोज़मर्रा के काम के लिए आसान और मुफ्त ऑनलाइन टूल्स</p>
 </header>
 
 <div class="container">
+<input class="search" id="search" placeholder="टूल खोजें जैसे QR, फोटो, कैलकुलेटर..." oninput="filterTools()">
 
-<input class="search" id="search"
-placeholder="🔍 Search tools..."
-onkeyup="searchTools()">
+<div class="grid" id="cards">
+<div class="card" data-name="word counter text word">
+<h2>📝 Word Counter</h2><p>शब्द और अक्षर गिनें।</p><button onclick="openTool('word')">खोलें</button></div>
 
-<div class="grid" id="tools">
+<div class="card" data-name="qr code barcode payment upi">
+<h2>🔳 QR Code Generator</h2><p>टेक्स्ट, लिंक या UPI के लिए QR बनाएं।</p><button onclick="openTool('qr')">खोलें</button></div>
 
-<div class="card">
-<h2>📝 Word Counter</h2>
-<p>Count words and characters instantly.</p>
-<button onclick="openTool('wordTool')">Open Tool</button>
+<div class="card" data-name="image compressor photo mb kb">
+<h2>🖼️ Image Compressor</h2><p>फोटो का आकार कम करें।</p><button onclick="openTool('compress')">खोलें</button></div>
+
+<div class="card" data-name="image resizer photo resize">
+<h2>📐 Image Resizer</h2><p>फोटो की चौड़ाई और ऊंचाई बदलें।</p><button onclick="openTool('resize')">खोलें</button></div>
+
+<div class="card" data-name="calculator maths">
+<h2>🧮 Calculator</h2><p>साधारण गणना करें।</p><button onclick="openTool('calc')">खोलें</button></div>
+
+<div class="card" data-name="percentage percent calculator">
+<h2>📊 Percentage Calculator</h2><p>प्रतिशत निकालें।</p><button onclick="openTool('percent')">खोलें</button></div>
+
+<div class="card" data-name="age calculator birthday">
+<h2>🎂 Age Calculator</h2><p>उम्र साल, महीने और दिन में जानें।</p><button onclick="openTool('age')">खोलें</button></div>
+
+<div class="card" data-name="bmi health calculator">
+<h2>⚖️ BMI Calculator</h2><p>ऊंचाई और वजन से BMI निकालें।</p><button onclick="openTool('bmi')">खोलें</button></div>
+
+<div class="card" data-name="password generator security">
+<h2>🔐 Password Generator</h2><p>मजबूत पासवर्ड बनाएं।</p><button onclick="openTool('pass')">खोलें</button></div>
+
+<div class="card" data-name="text case converter uppercase lowercase">
+<h2>🔤 Text Case</h2><p>UPPERCASE, lowercase और Title Case करें।</p><button onclick="openTool('case')">खोलें</button></div>
+
+<div class="card" data-name="json formatter developer">
+<h2>🧩 JSON Formatter</h2><p>JSON को सुंदर और पढ़ने योग्य बनाएं।</p><button onclick="openTool('json')">खोलें</button></div>
+
+<div class="card" data-name="contact message writing">
+<h2>✉️ Message Writer</h2><p>नाम और काम डालकर संदेश तैयार करें।</p><button onclick="openTool('msg')">खोलें</button></div>
+
+<div class="card" data-name="product shopping amazon flipkart meesho">
+<h2>🛒 Product Search</h2><p>एक ही जगह से अलग-अलग दुकानों पर खोजें।</p><button onclick="openTool('products')">खोलें</button></div>
+
+<div class="card" data-name="video downloader audio downloader youtube">
+<h2>🎬 Video/Audio Downloader</h2><p>लिंक को डाउनलोड सेवा में भेजें।</p><button onclick="openTool('download')">खोलें</button></div>
 </div>
 
-<div class="card">
-<h2>🖼️ Image Resizer</h2>
-<p>Resize your image quickly.</p>
-<button onclick="openTool('imageTool')">Open Tool</button>
-</div>
+<div id="word" class="tool"><h2>📝 Word Counter</h2>
+<textarea id="wtext" rows="8" placeholder="यहाँ टेक्स्ट लिखें..." oninput="countWords()"></textarea>
+<div class="result" id="wresult">शब्द: 0 | अक्षर: 0</div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
 
-<div class="card">
-<h2>🎂 Age Calculator</h2>
-<p>Calculate your exact age.</p>
-<button onclick="openTool('ageTool')">Open Tool</button>
-</div>
+<div id="qr" class="tool"><h2>🔳 QR Code Generator</h2>
+<input id="qrtext" placeholder="टेक्स्ट, वेबसाइट लिंक या UPI लिंक डालें">
+<button onclick="makeQR()">QR बनाएं</button>
+<button class="secondary" onclick="makeUPI()">UPI QR का उदाहरण भरें</button>
+<div id="qrcode"></div>
+<p class="note">UPI QR के लिए अपने बैंक/UPI ऐप का सही UPI ID और नाम इस्तेमाल करें। भुगतान से पहले विवरण जाँचें।</p>
+<button class="secondary" onclick="closeTools()">बंद करें</button></div>
 
-<div class="card">
-<h2>📦 Image Compressor</h2>
-<p>Reduce image file size.</p>
-<button onclick="openTool('compressTool')">Open Tool</button>
-</div>
+<div id="compress" class="tool"><h2>🖼️ Image Compressor</h2>
+<input type="file" id="cfile" accept="image/*"><label>Quality: <span id="qval">0.7</span></label>
+<input type="range" id="quality" min=".1" max="1" step=".05" value=".7" oninput="qval.textContent=this.value">
+<button onclick="compressImage()">Compress</button><div id="cresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
 
-</div>
+<div id="resize" class="tool"><h2>📐 Image Resizer</h2>
+<input type="file" id="rfile" accept="image/*">
+<input id="rw" type="number" placeholder="नई चौड़ाई (px)">
+<input id="rh" type="number" placeholder="नई ऊंचाई (px)">
+<button onclick="resizeImage()">Resize</button><div id="rresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
 
-<!-- WORD COUNTER -->
-<div class="tool" id="wordTool">
-<h2>📝 Word Counter</h2>
-<textarea id="text" rows="8"
-placeholder="Type or paste your text here..."
-oninput="countWords()"></textarea>
-<p>Words: <b id="words">0</b></p>
-<p>Characters: <b id="chars">0</b></p>
-<button onclick="closeTools()">Close</button>
-</div>
+<div id="calc" class="tool"><h2>🧮 Calculator</h2>
+<input id="calcinput" placeholder="उदाहरण: (25+10)*3/5">
+<button onclick="calculate()">Calculate</button><div class="result" id="calcresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
 
-<!-- IMAGE RESIZER -->
-<div class="tool" id="imageTool">
-<h2>🖼️ Image Resizer</h2>
-<input type="file" id="resizeFile" accept="image/*">
-<input type="number" id="width" placeholder="New width in pixels">
-<button onclick="resizeImage()">Resize & Download</button>
-<button onclick="closeTools()">Close</button>
-</div>
+<div id="percent" class="tool"><h2>📊 Percentage Calculator</h2>
+<input id="p1" type="number" placeholder="कितना">
+<input id="p2" type="number" placeholder="किसका">
+<button onclick="percentCalc()">निकालें</button><div class="result" id="presult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
 
-<!-- AGE CALCULATOR -->
-<div class="tool" id="ageTool">
-<h2>🎂 Age Calculator</h2>
-<input type="date" id="dob">
-<button onclick="calculateAge()">Calculate Age</button>
-<p id="ageResult"></p>
-<button onclick="closeTools()">Close</button>
-</div>
+<div id="age" class="tool"><h2>🎂 Age Calculator</h2>
+<input id="dob" type="date"><button onclick="ageCalc()">उम्र निकालें</button>
+<div class="result" id="ageresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
 
-<!-- IMAGE COMPRESSOR -->
-<div class="tool" id="compressTool">
-<h2>📦 Image Compressor</h2>
-<input type="file" id="compressFile" accept="image/*">
-<button onclick="compressImage()">Compress & Download</button>
-<button onclick="closeTools()">Close</button>
-</div>
+<div id="bmi" class="tool"><h2>⚖️ BMI Calculator</h2>
+<input id="height" type="number" placeholder="ऊंचाई cm में">
+<input id="weight" type="number" placeholder="वजन kg में">
+<button onclick="bmiCalc()">BMI निकालें</button><div class="result" id="bmiresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
 
-</div>
+<div id="pass" class="tool"><h2>🔐 Password Generator</h2>
+<input id="plen" type="number" value="16" min="6" max="100" placeholder="लंबाई">
+<button onclick="genPass()">पासवर्ड बनाएं</button><div class="result" id="passresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
 
-<footer>
-© 2026 FreeToolsHub • Free Online Tools
-</footer>
+<div id="case" class="tool"><h2>🔤 Text Case Converter</h2>
+<textarea id="casetext" rows="6" placeholder="टेक्स्ट"></textarea>
+<button onclick="toUpper()">UPPERCASE</button><button onclick="toLower()">lowercase</button><button onclick="toTitle()">Title Case</button>
+<button class="secondary" onclick="closeTools()">बंद करें</button></div>
+
+<div id="json" class="tool"><h2>🧩 JSON Formatter</h2>
+<textarea id="jsontext" rows="8" placeholder='{"name":"Aakash","age":20}'></textarea>
+<button onclick="formatJSON()">Format</button><div class="result" id="jsonresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
+
+<div id="msg" class="tool"><h2>✉️ Message Writer</h2>
+<input id="mfrom" placeholder="किसकी तरफ से">
+<input id="mto" placeholder="किसके लिए">
+<textarea id="mcontent" rows="5" placeholder="मुख्य बात"></textarea>
+<button onclick="writeMsg()">संदेश बनाएं</button><div class="result" id="msgresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
+
+<div id="products" class="tool"><h2>🛒 Product Search</h2>
+<input id="product" placeholder="जैसे: wireless earbuds">
+<button onclick="searchProducts()">दुकानों पर खोजें</button>
+<div class="result price-links" id="productresult"></div>
+<p class="note">यह बटन अलग-अलग दुकानों की खोज खोलेगा। असली कीमत/स्टॉक वहाँ जाकर देखें। अपने affiliate links बाद में जोड़े जा सकते हैं।</p>
+<button class="secondary" onclick="closeTools()">बंद करें</button></div>
+
+<div id="download" class="tool"><h2>🎬 Video / Audio Link Tools</h2>
+<input id="durl" placeholder="वीडियो/ऑडियो का लिंक">
+<button onclick="openDownloadService()">लिंक प्रोसेस करें</button>
+<div class="result" id="dresult">ध्यान दें: हर वेबसाइट से वीडियो/ऑडियो डाउनलोड करना तकनीकी रूप से या उसकी शर्तों के अनुसार संभव नहीं होता। केवल वही सामग्री डाउनलोड करें जिसके लिए आपके पास अधिकार/अनुमति है।</div>
+<button class="secondary" onclick="closeTools()">बंद करें</button></div>
+
+<footer>© 2026 FreeToolsHub • मुफ्त ऑनलाइन टूल्स</footer>
+</div>
 
 <script>
-
-function openTool(id){
-  document.querySelectorAll('.tool').forEach(x=>x.style.display='none');
-  document.getElementById(id).style.display='block';
-  window.scrollTo({top:document.getElementById(id).offsetTop-20,behavior:'smooth'});
-}
-
-function closeTools(){
-  document.querySelectorAll('.tool').forEach(x=>x.style.display='none');
-}
-
-function countWords(){
-  let text=document.getElementById('text').value;
-  let words=text.trim()?text.trim().split(/\s+/).length:0;
-  document.getElementById('words').innerText=words;
-  document.getElementById('chars').innerText=text.length;
-}
-
-function searchTools(){
-  let q=document.getElementById('search').value.toLowerCase();
-  document.querySelectorAll('.card').forEach(card=>{
-    card.style.display=card.innerText.toLowerCase().includes(q)
-    ?'block':'none';
-  });
-}
-
-function resizeImage(){
-  let file=document.getElementById('resizeFile').files[0];
-  let width=parseInt(document.getElementById('width').value);
-
-  if(!file || !width){
-    alert('Please select an image and enter width.');
-    return;
-  }
-
-  let img=new Image();
-  img.onload=function(){
-    let canvas=document.createElement('canvas');
-    let ratio=width/img.width;
-    canvas.width=width;
-    canvas.height=img.height*ratio;
-
-    let ctx=canvas.getContext('2d');
-    ctx.drawImage(img,0,0,canvas.width,canvas.height);
-
-    canvas.toBlob(function(blob){
-      downloadFile(blob,'resized-image.jpg');
-    },'image/jpeg',0.9);
-  };
-
-  img.src=URL.createObjectURL(file);
-}
-
-function compressImage(){
-  let file=document.getElementById('compressFile').files[0];
-
-  if(!file){
-    alert('Please select an image.');
-    return;
-  }
-
-  let img=new Image();
-
-  img.onload=function(){
-    let canvas=document.createElement('canvas');
-    let max=1600;
-    let scale=Math.min(1,max/img.width,max/img.height);
-
-    canvas.width=img.width*scale;
-    canvas.height=img.height*scale;
-
-    let ctx=canvas.getContext('2d');
-    ctx.drawImage(img,0,0,canvas.width,canvas.height);
-
-    canvas.toBlob(function(blob){
-      downloadFile(blob,'compressed-image.jpg');
-    },'image/jpeg',0.55);
-  };
-
-  img.src=URL.createObjectURL(file);
-}
-
-function downloadFile(blob,name){
-  let a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download=name;
-  a.click();
-}
-
-function calculateAge(){
-  let dob=new Date(document.getElementById('dob').value);
-
-  if(isNaN(dob)){
-    alert('Please select your birth date.');
-    return;
-  }
-
-  let today=new Date();
-  let age=today.getFullYear()-dob.getFullYear();
-
-  let month=today.getMonth()-dob.getMonth();
-
-  if(month<0 || (month===0 && today.getDate()<dob.getDate())){
-    age--;
-  }
-
-  document.getElementById('ageResult').innerHTML=
-  'Your age is <b>'+age+' years</b>.';
-}
-
+function openTool(id){closeTools();document.getElementById(id).style.display='block';document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+function closeTools(){document.querySelectorAll('.tool').forEach(x=>x.style.display='none');}
+function filterTools(){let q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('#cards .card').forEach(c=>c.style.display=c.dataset.name.includes(q)?'block':'none');}
+function countWords(){let t=wtext.value.trim();let words=t?t.split(/\s+/).length:0;wresult.textContent='शब्द: '+words+' | अक्षर: '+t.length;}
+function makeQR(){qrcode.innerHTML='';let t=qrtext.value.trim();if(!t)return alert('कुछ लिखें');new QRCode(qrcode,{text:t,width:220,height:220});}
+function makeUPI(){qrtext.value='upi://pay?pa=YOURUPI@upi&pn=Your%20Name&cu=INR';makeQR();}
+function downloadCanvas(canvas,name){let a=document.createElement('a');a.download=name;a.href=canvas.toDataURL('image/jpeg',.85);a.click();}
+function compressImage(){let f=cfile.files[0];if(!f)return alert('फोटो चुनें');let im=new Image();im.onload=()=>{let c=document.createElement('canvas'),x=c.getContext('2d');c.width=im.width;c.height=im.height;x.drawImage(im,0,0);let url=c.toDataURL('image/jpeg',Number(quality.value));cresult.innerHTML='<p>मूल: '+Math.round(f.size/1024)+' KB<br>नई: '+Math.round((url.length*0.75)/1024)+' KB</p><img class="preview" src="'+url+'"><br><button onclick="downloadCanvas(document.querySelector(\'#cresult img\'),\'compressed.jpg\')">डाउनलोड</button>';};im.src=URL.createObjectURL(f);}
+function resizeImage(){let f=rfile.files[0],w=Number(rw.value),h=Number(rh.value);if(!f||!w||!h)return alert('फोटो, चौड़ाई और ऊंचाई भरें');let im=new Image();im.onload=()=>{let c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);let u=c.toDataURL('image/jpeg',.9);rresult.innerHTML='<img class="preview" src="'+u+'"><br><a class="btn" download="resized.jpg" href="'+u+'">डाउनलोड</a>';};im.src=URL.createObjectURL(f);}
+function calculate(){try{let v=Function('"use strict";return ('+calcinput.value+')')();calcresult.textContent=v;}catch(e){calcresult.textContent='कृपया सही गणना लिखें।';}}
+function percentCalc(){let a=Number(p1.value),b=Number(p2.value);presult.textContent=b?(a/b*100).toFixed(2)+'%':'कृपया मान भरें';}
+function ageCalc(){let d=new Date(dob.value),n=new Date();if(!dob.value)return;let y=n.getFullYear()-d.getFullYear(),m=n.getMonth()-d.getMonth(),day=n.getDate()-d.getDate();if(day<0){m--;day+=new Date(n.getFullYear(),n.getMonth(),0).getDate()}if(m<0){y--;m+=12}ageresult.textContent=y+' साल, '+m+' महीने, '+day+' दिन';}
+function bmiCalc(){let h=Number(height.value)/100,w=Number(weight.value);if(!h||!w)return;bmiresult.textContent='BMI: '+(w/(h*h)).toFixed(2);}
+function genPass(){let n=Number(plen.value)||16,s='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';let o='';for(let i=0;i<n;i++)o+=s[Math.floor(Math.random()*s.length)];passresult.textContent=o;}
+function toUpper(){casetext.value=casetext.value.toUpperCase()}function toLower(){casetext.value=casetext.value.toLowerCase()}function toTitle(){casetext.value=casetext.value.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}
+function formatJSON(){try{jsonresult.textContent=JSON.stringify(JSON.parse(jsontext.value),null,2)}catch(e){jsonresult.textContent='JSON सही नहीं है।'}}
+function writeMsg(){msgresult.textContent='प्रति: '+mto.value+'\nप्रेषक: '+mfrom.value+'\n\n'+mcontent.value;}
+function searchProducts(){let q=encodeURIComponent(product.value.trim());if(!q)return;productresult.innerHTML='<a class="btn" target="_blank" href="https://www.amazon.in/s?k='+q+'">Amazon पर देखें</a><a class="btn" target="_blank" href="https://www.flipkart.com/search?q='+q+'">Flipkart पर देखें</a><a class="btn" target="_blank" href="https://www.meesho.com/search?q='+q+'">Meesho पर देखें</a><a class="btn" target="_blank" href="https://www.google.com/search?tbm=shop&q='+q+'">Google Shopping पर देखें</a>';}
+function openDownloadService(){let u=durl.value.trim();if(!u)return alert('लिंक डालें');dresult.innerHTML='दिया गया लिंक: '+u+'<br><br><a class="btn" target="_blank" href="'+u+'">मूल लिंक खोलें</a><br><span class="note">यूनिवर्सल डाउनलोडर के लिए सुरक्षित सर्वर/API और संबंधित साइट की अनुमति/शर्तों की जरूरत पड़ती है।</span>';}
 </script>
-
 </body>
 </html>
