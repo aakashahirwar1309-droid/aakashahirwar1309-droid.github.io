@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreeToolsHub - Free Online Tools</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f7fb;
+  color:#172033;
+}
+header{
+  background:#172a46;
+  color:white;
+  text-align:center;
+  padding:28px 15px;
+}
+header h1{margin:0 0 8px;font-size:30px}
+header p{margin:0;color:#dce6f5}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+.search{
+  width:100%;
+  padding:15px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  font-size:16px;
+  margin-bottom:20px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+.card{
+  background:white;
+  padding:22px;
+  border-radius:16px;
+  box-shadow:0 3px 15px #00000012;
+}
+.card h2{margin-top:0;font-size:20px}
+button{
+  background:#1769e0;
+  color:white;
+  border:0;
+  padding:12px 18px;
+  border-radius:9px;
+  cursor:pointer;
+  font-size:15px;
+}
+input,textarea{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border:1px solid #ccc;
+  border-radius:9px;
+  font-size:15px;
+}
+.tool{
+  display:none;
+  background:white;
+  padding:20px;
+  margin-top:20px;
+  border-radius:16px;
+}
+footer{
+  text-align:center;
+  padding:30px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🛠️ FreeToolsHub</h1>
+  <p>Simple & Free Online Tools</p>
+</header>
+
+<div class="container">
+
+<input class="search" id="search"
+placeholder="🔍 Search tools..."
+onkeyup="searchTools()">
+
+<div class="grid" id="tools">
+
+<div class="card">
+<h2>📝 Word Counter</h2>
+<p>Count words and characters instantly.</p>
+<button onclick="openTool('wordTool')">Open Tool</button>
+</div>
+
+<div class="card">
+<h2>🖼️ Image Resizer</h2>
+<p>Resize your image quickly.</p>
+<button onclick="openTool('imageTool')">Open Tool</button>
+</div>
+
+<div class="card">
+<h2>🎂 Age Calculator</h2>
+<p>Calculate your exact age.</p>
+<button onclick="openTool('ageTool')">Open Tool</button>
+</div>
+
+<div class="card">
+<h2>📦 Image Compressor</h2>
+<p>Reduce image file size.</p>
+<button onclick="openTool('compressTool')">Open Tool</button>
+</div>
+
+</div>
+
+<!-- WORD COUNTER -->
+<div class="tool" id="wordTool">
+<h2>📝 Word Counter</h2>
+<textarea id="text" rows="8"
+placeholder="Type or paste your text here..."
+oninput="countWords()"></textarea>
+<p>Words: <b id="words">0</b></p>
+<p>Characters: <b id="chars">0</b></p>
+<button onclick="closeTools()">Close</button>
+</div>
+
+<!-- IMAGE RESIZER -->
+<div class="tool" id="imageTool">
+<h2>🖼️ Image Resizer</h2>
+<input type="file" id="resizeFile" accept="image/*">
+<input type="number" id="width" placeholder="New width in pixels">
+<button onclick="resizeImage()">Resize & Download</button>
+<button onclick="closeTools()">Close</button>
+</div>
+
+<!-- AGE CALCULATOR -->
+<div class="tool" id="ageTool">
+<h2>🎂 Age Calculator</h2>
+<input type="date" id="dob">
+<button onclick="calculateAge()">Calculate Age</button>
+<p id="ageResult"></p>
+<button onclick="closeTools()">Close</button>
+</div>
+
+<!-- IMAGE COMPRESSOR -->
+<div class="tool" id="compressTool">
+<h2>📦 Image Compressor</h2>
+<input type="file" id="compressFile" accept="image/*">
+<button onclick="compressImage()">Compress & Download</button>
+<button onclick="closeTools()">Close</button>
+</div>
+
+</div>
+
+<footer>
+© 2026 FreeToolsHub • Free Online Tools
+</footer>
+
+<script>
+
+function openTool(id){
+  document.querySelectorAll('.tool').forEach(x=>x.style.display='none');
+  document.getElementById(id).style.display='block';
+  window.scrollTo({top:document.getElementById(id).offsetTop-20,behavior:'smooth'});
+}
+
+function closeTools(){
+  document.querySelectorAll('.tool').forEach(x=>x.style.display='none');
+}
+
+function countWords(){
+  let text=document.getElementById('text').value;
+  let words=text.trim()?text.trim().split(/\s+/).length:0;
+  document.getElementById('words').innerText=words;
+  document.getElementById('chars').innerText=text.length;
+}
+
+function searchTools(){
+  let q=document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('.card').forEach(card=>{
+    card.style.display=card.innerText.toLowerCase().includes(q)
+    ?'block':'none';
+  });
+}
+
+function resizeImage(){
+  let file=document.getElementById('resizeFile').files[0];
+  let width=parseInt(document.getElementById('width').value);
+
+  if(!file || !width){
+    alert('Please select an image and enter width.');
+    return;
+  }
+
+  let img=new Image();
+  img.onload=function(){
+    let canvas=document.createElement('canvas');
+    let ratio=width/img.width;
+    canvas.width=width;
+    canvas.height=img.height*ratio;
+
+    let ctx=canvas.getContext('2d');
+    ctx.drawImage(img,0,0,canvas.width,canvas.height);
+
+    canvas.toBlob(function(blob){
+      downloadFile(blob,'resized-image.jpg');
+    },'image/jpeg',0.9);
+  };
+
+  img.src=URL.createObjectURL(file);
+}
+
+function compressImage(){
+  let file=document.getElementById('compressFile').files[0];
+
+  if(!file){
+    alert('Please select an image.');
+    return;
+  }
+
+  let img=new Image();
+
+  img.onload=function(){
+    let canvas=document.createElement('canvas');
+    let max=1600;
+    let scale=Math.min(1,max/img.width,max/img.height);
+
+    canvas.width=img.width*scale;
+    canvas.height=img.height*scale;
+
+    let ctx=canvas.getContext('2d');
+    ctx.drawImage(img,0,0,canvas.width,canvas.height);
+
+    canvas.toBlob(function(blob){
+      downloadFile(blob,'compressed-image.jpg');
+    },'image/jpeg',0.55);
+  };
+
+  img.src=URL.createObjectURL(file);
+}
+
+function downloadFile(blob,name){
+  let a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=name;
+  a.click();
+}
+
+function calculateAge(){
+  let dob=new Date(document.getElementById('dob').value);
+
+  if(isNaN(dob)){
+    alert('Please select your birth date.');
+    return;
+  }
+
+  let today=new Date();
+  let age=today.getFullYear()-dob.getFullYear();
+
+  let month=today.getMonth()-dob.getMonth();
+
+  if(month<0 || (month===0 && today.getDate()<dob.getDate())){
+    age--;
+  }
+
+  document.getElementById('ageResult').innerHTML=
+  'Your age is <b>'+age+' years</b>.';
+}
+
+</script>
+
+</body>
+</html>
