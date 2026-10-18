@@ -27,6 +27,7 @@ function show(title, body){
   app.classList.remove("hide");
   app.innerHTML = `<div class="panel"><button class="back" id="back">← Back</button><h2>${esc(title)}</h2>${body}</div>`;
   $("#back").onclick=()=>{app.classList.add("hide");home.classList.remove("hide");};
+  bindRun(title);
 }
 function output(x){const o=$("#out"); if(o)o.innerHTML=x;}
 
@@ -67,7 +68,6 @@ function openTool(t){
   if(t==="Screen Recorder") return show(t,`<button id="run">Start Screen Recording</button><div id="out"></div>`);
   if(["Image to PDF","PDF Maker","Resume Maker","Invoice Maker","Certificate Maker"].includes(t)) return show(t,`<textarea id="doc" rows="12" placeholder="अपना content लिखें"></textarea><button id="run">Print / Save as PDF</button><div id="out"></div>`);
   show(t,`<p>यह tool अभी basic version में है।</p><p>हम fake result नहीं दिखाते।</p>`);
-  bindRun(t);
 }
 function calcUI(t){
  if(t==="Calculator") return `<input id="a" placeholder="2*(10+5)/3"><button id="run">Calculate</button><div id="out"></div>`;
@@ -115,4 +115,4 @@ function bindRun(t){
    else if(t==="Speech to Text") speechToText();
    else if(t==="Voice Recorder") recordAudio();
    else if(t==="Screen Recorder") recordScreen();
-   else if(["Image to PDF","PDF Maker","Resume Maker","Invoice Maker","Certificate Maker"].includes(t)) printDocumen
+   else if(["Image to PDF","PDF Maker","Resume Maker","Invoice Maker","Certificate Maker"].includes(t)) printDoc
