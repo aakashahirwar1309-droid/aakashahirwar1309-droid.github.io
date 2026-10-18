@@ -1,186 +1,148 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FreeToolsHub - रोज़मर्रा के मुफ्त ऑनलाइन टूल्स</title>
-<meta name="description" content="FreeToolsHub पर रोज़मर्रा के काम के लिए मुफ्त ऑनलाइन टूल्स: QR Code, Image Compressor, Resizer, Calculator, Password Generator, Text Tools और Product Search.">
+<title>FreeToolsHub – Free Online Tools</title>
+<meta name="description" content="Free online tools for images, PDF, text, coding, calculators, planning and business.">
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}
-header{background:#172a46;color:#fff;text-align:center;padding:24px 14px}
-header h1{margin:0 0 8px;font-size:28px}
-header p{margin:0;color:#dce6f5}
-.container{max-width:1050px;margin:auto;padding:18px}
-.search{width:100%;padding:14px;border:1px solid #ddd;border-radius:12px;font-size:16px;margin-bottom:18px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
-.card{background:#fff;padding:18px;border-radius:16px;box-shadow:0 3px 15px #00000012}
-.card h2{font-size:20px;margin:0 0 8px}
-.card p{color:#666;line-height:1.45}
-button,.btn{background:#1769e0;color:#fff;border:0;padding:11px 15px;border-radius:9px;cursor:pointer;font-size:15px;text-decoration:none;display:inline-block;margin:4px 3px 4px 0}
-button.secondary{background:#555}
-input,textarea,select{width:100%;padding:11px;border:1px solid #ccc;border-radius:9px;margin:6px 0;font-size:15px}
-.tool{display:none;background:#fff;margin:15px 0;padding:20px;border-radius:16px}
-.result{background:#f0f4fa;padding:12px;border-radius:9px;margin-top:10px;white-space:pre-wrap;word-break:break-word}
-#qrcode{margin:15px auto;text-align:center}
-img.preview{max-width:100%;max-height:300px;border-radius:10px;margin-top:10px}
-.note{font-size:13px;color:#666}
-footer{text-align:center;padding:30px;color:#777}
-.price-links a{display:block;margin:8px 0}
-.hide{display:none}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f6f8fb;color:#172033}
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #e5e7eb;padding:12px}
+.brand{font-size:22px;font-weight:800}.tag{font-size:12px;color:#667085}
+.search{width:100%;padding:12px;border:1px solid #d0d5dd;border-radius:12px;margin-top:10px}
+.wrap{max-width:1100px;margin:auto;padding:14px}.cats{display:flex;gap:8px;overflow:auto;padding:8px 0}.cats button{white-space:nowrap;border:0;background:#e8eefc;padding:9px 12px;border-radius:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.card{background:#fff;border:1px solid #e4e7ec;border-radius:16px;padding:15px;box-shadow:0 2px 8px #00000008}
+.card h3{margin:0 0 6px}.card p{margin:0 0 10px;color:#667085;font-size:13px}.tool{display:none}.tool.active{display:block}.box{background:#fff;border:1px solid #e4e7ec;border-radius:16px;padding:15px;margin-bottom:14px}
+textarea,input,select{width:100%;padding:11px;border:1px solid #d0d5dd;border-radius:10px;margin:5px 0 9px}button,.btn{cursor:pointer;border:0;border-radius:10px;padding:10px 13px;background:#155eef;color:white;margin:3px}.secondary{background:#eef2f6;color:#172033}
+pre{white-space:pre-wrap;background:#101828;color:#fff;padding:12px;border-radius:10px;overflow:auto}.out{margin-top:8px;padding:10px;background:#f2f4f7;border-radius:10px}
+.small{font-size:12px;color:#667085}.hide{display:none!important}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
-
-<header>
-<h1>🛠️ FreeToolsHub</h1>
-<p>रोज़मर्रा के काम के लिए आसान और मुफ्त ऑनलाइन टूल्स</p>
-</header>
-
-<div class="container">
-<input class="search" id="search" placeholder="टूल खोजें जैसे QR, फोटो, कैलकुलेटर..." oninput="filterTools()">
-
-<div class="grid" id="cards">
-<div class="card" data-name="word counter text word">
-<h2>📝 Word Counter</h2><p>शब्द और अक्षर गिनें।</p><button onclick="openTool('word')">खोलें</button></div>
-
-<div class="card" data-name="qr code barcode payment upi">
-<h2>🔳 QR Code Generator</h2><p>टेक्स्ट, लिंक या UPI के लिए QR बनाएं।</p><button onclick="openTool('qr')">खोलें</button></div>
-
-<div class="card" data-name="image compressor photo mb kb">
-<h2>🖼️ Image Compressor</h2><p>फोटो का आकार कम करें।</p><button onclick="openTool('compress')">खोलें</button></div>
-
-<div class="card" data-name="image resizer photo resize">
-<h2>📐 Image Resizer</h2><p>फोटो की चौड़ाई और ऊंचाई बदलें।</p><button onclick="openTool('resize')">खोलें</button></div>
-
-<div class="card" data-name="calculator maths">
-<h2>🧮 Calculator</h2><p>साधारण गणना करें।</p><button onclick="openTool('calc')">खोलें</button></div>
-
-<div class="card" data-name="percentage percent calculator">
-<h2>📊 Percentage Calculator</h2><p>प्रतिशत निकालें।</p><button onclick="openTool('percent')">खोलें</button></div>
-
-<div class="card" data-name="age calculator birthday">
-<h2>🎂 Age Calculator</h2><p>उम्र साल, महीने और दिन में जानें।</p><button onclick="openTool('age')">खोलें</button></div>
-
-<div class="card" data-name="bmi health calculator">
-<h2>⚖️ BMI Calculator</h2><p>ऊंचाई और वजन से BMI निकालें।</p><button onclick="openTool('bmi')">खोलें</button></div>
-
-<div class="card" data-name="password generator security">
-<h2>🔐 Password Generator</h2><p>मजबूत पासवर्ड बनाएं।</p><button onclick="openTool('pass')">खोलें</button></div>
-
-<div class="card" data-name="text case converter uppercase lowercase">
-<h2>🔤 Text Case</h2><p>UPPERCASE, lowercase और Title Case करें।</p><button onclick="openTool('case')">खोलें</button></div>
-
-<div class="card" data-name="json formatter developer">
-<h2>🧩 JSON Formatter</h2><p>JSON को सुंदर और पढ़ने योग्य बनाएं।</p><button onclick="openTool('json')">खोलें</button></div>
-
-<div class="card" data-name="contact message writing">
-<h2>✉️ Message Writer</h2><p>नाम और काम डालकर संदेश तैयार करें।</p><button onclick="openTool('msg')">खोलें</button></div>
-
-<div class="card" data-name="product shopping amazon flipkart meesho">
-<h2>🛒 Product Search</h2><p>एक ही जगह से अलग-अलग दुकानों पर खोजें।</p><button onclick="openTool('products')">खोलें</button></div>
-
-<div class="card" data-name="video downloader audio downloader youtube">
-<h2>🎬 Video/Audio Downloader</h2><p>लिंक को डाउनलोड सेवा में भेजें।</p><button onclick="openTool('download')">खोलें</button></div>
-</div>
-
-<div id="word" class="tool"><h2>📝 Word Counter</h2>
-<textarea id="wtext" rows="8" placeholder="यहाँ टेक्स्ट लिखें..." oninput="countWords()"></textarea>
-<div class="result" id="wresult">शब्द: 0 | अक्षर: 0</div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="qr" class="tool"><h2>🔳 QR Code Generator</h2>
-<input id="qrtext" placeholder="टेक्स्ट, वेबसाइट लिंक या UPI लिंक डालें">
-<button onclick="makeQR()">QR बनाएं</button>
-<button class="secondary" onclick="makeUPI()">UPI QR का उदाहरण भरें</button>
-<div id="qrcode"></div>
-<p class="note">UPI QR के लिए अपने बैंक/UPI ऐप का सही UPI ID और नाम इस्तेमाल करें। भुगतान से पहले विवरण जाँचें।</p>
-<button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="compress" class="tool"><h2>🖼️ Image Compressor</h2>
-<input type="file" id="cfile" accept="image/*"><label>Quality: <span id="qval">0.7</span></label>
-<input type="range" id="quality" min=".1" max="1" step=".05" value=".7" oninput="qval.textContent=this.value">
-<button onclick="compressImage()">Compress</button><div id="cresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="resize" class="tool"><h2>📐 Image Resizer</h2>
-<input type="file" id="rfile" accept="image/*">
-<input id="rw" type="number" placeholder="नई चौड़ाई (px)">
-<input id="rh" type="number" placeholder="नई ऊंचाई (px)">
-<button onclick="resizeImage()">Resize</button><div id="rresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="calc" class="tool"><h2>🧮 Calculator</h2>
-<input id="calcinput" placeholder="उदाहरण: (25+10)*3/5">
-<button onclick="calculate()">Calculate</button><div class="result" id="calcresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="percent" class="tool"><h2>📊 Percentage Calculator</h2>
-<input id="p1" type="number" placeholder="कितना">
-<input id="p2" type="number" placeholder="किसका">
-<button onclick="percentCalc()">निकालें</button><div class="result" id="presult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="age" class="tool"><h2>🎂 Age Calculator</h2>
-<input id="dob" type="date"><button onclick="ageCalc()">उम्र निकालें</button>
-<div class="result" id="ageresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="bmi" class="tool"><h2>⚖️ BMI Calculator</h2>
-<input id="height" type="number" placeholder="ऊंचाई cm में">
-<input id="weight" type="number" placeholder="वजन kg में">
-<button onclick="bmiCalc()">BMI निकालें</button><div class="result" id="bmiresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="pass" class="tool"><h2>🔐 Password Generator</h2>
-<input id="plen" type="number" value="16" min="6" max="100" placeholder="लंबाई">
-<button onclick="genPass()">पासवर्ड बनाएं</button><div class="result" id="passresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="case" class="tool"><h2>🔤 Text Case Converter</h2>
-<textarea id="casetext" rows="6" placeholder="टेक्स्ट"></textarea>
-<button onclick="toUpper()">UPPERCASE</button><button onclick="toLower()">lowercase</button><button onclick="toTitle()">Title Case</button>
-<button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="json" class="tool"><h2>🧩 JSON Formatter</h2>
-<textarea id="jsontext" rows="8" placeholder='{"name":"Aakash","age":20}'></textarea>
-<button onclick="formatJSON()">Format</button><div class="result" id="jsonresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="msg" class="tool"><h2>✉️ Message Writer</h2>
-<input id="mfrom" placeholder="किसकी तरफ से">
-<input id="mto" placeholder="किसके लिए">
-<textarea id="mcontent" rows="5" placeholder="मुख्य बात"></textarea>
-<button onclick="writeMsg()">संदेश बनाएं</button><div class="result" id="msgresult"></div><button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="products" class="tool"><h2>🛒 Product Search</h2>
-<input id="product" placeholder="जैसे: wireless earbuds">
-<button onclick="searchProducts()">दुकानों पर खोजें</button>
-<div class="result price-links" id="productresult"></div>
-<p class="note">यह बटन अलग-अलग दुकानों की खोज खोलेगा। असली कीमत/स्टॉक वहाँ जाकर देखें। अपने affiliate links बाद में जोड़े जा सकते हैं।</p>
-<button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<div id="download" class="tool"><h2>🎬 Video / Audio Link Tools</h2>
-<input id="durl" placeholder="वीडियो/ऑडियो का लिंक">
-<button onclick="openDownloadService()">लिंक प्रोसेस करें</button>
-<div class="result" id="dresult">ध्यान दें: हर वेबसाइट से वीडियो/ऑडियो डाउनलोड करना तकनीकी रूप से या उसकी शर्तों के अनुसार संभव नहीं होता। केवल वही सामग्री डाउनलोड करें जिसके लिए आपके पास अधिकार/अनुमति है।</div>
-<button class="secondary" onclick="closeTools()">बंद करें</button></div>
-
-<footer>© 2026 FreeToolsHub • मुफ्त ऑनलाइन टूल्स</footer>
-</div>
+<header><div class="wrap"><div class="brand">🚀 FreeToolsHub</div><div class="tag">Free tools • fast browser processing • no login</div>
+<input id="search" class="search" placeholder="Tool search करें…"></div></header>
+<main class="wrap">
+<div class="cats" id="cats"></div>
+<section id="home"><h2>All Free Tools</h2><div id="grid" class="grid"></div></section>
+<section id="app" class="tool"></section>
+</main>
 
 <script>
-function openTool(id){closeTools();document.getElementById(id).style.display='block';document.getElementById(id).scrollIntoView({behavior:'smooth'});}
-function closeTools(){document.querySelectorAll('.tool').forEach(x=>x.style.display='none');}
-function filterTools(){let q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('#cards .card').forEach(c=>c.style.display=c.dataset.name.includes(q)?'block':'none');}
-function countWords(){let t=wtext.value.trim();let words=t?t.split(/\s+/).length:0;wresult.textContent='शब्द: '+words+' | अक्षर: '+t.length;}
-function makeQR(){qrcode.innerHTML='';let t=qrtext.value.trim();if(!t)return alert('कुछ लिखें');new QRCode(qrcode,{text:t,width:220,height:220});}
-function makeUPI(){qrtext.value='upi://pay?pa=YOURUPI@upi&pn=Your%20Name&cu=INR';makeQR();}
-function downloadCanvas(canvas,name){let a=document.createElement('a');a.download=name;a.href=canvas.toDataURL('image/jpeg',.85);a.click();}
-function compressImage(){let f=cfile.files[0];if(!f)return alert('फोटो चुनें');let im=new Image();im.onload=()=>{let c=document.createElement('canvas'),x=c.getContext('2d');c.width=im.width;c.height=im.height;x.drawImage(im,0,0);let url=c.toDataURL('image/jpeg',Number(quality.value));cresult.innerHTML='<p>मूल: '+Math.round(f.size/1024)+' KB<br>नई: '+Math.round((url.length*0.75)/1024)+' KB</p><img class="preview" src="'+url+'"><br><button onclick="downloadCanvas(document.querySelector(\'#cresult img\'),\'compressed.jpg\')">डाउनलोड</button>';};im.src=URL.createObjectURL(f);}
-function resizeImage(){let f=rfile.files[0],w=Number(rw.value),h=Number(rh.value);if(!f||!w||!h)return alert('फोटो, चौड़ाई और ऊंचाई भरें');let im=new Image();im.onload=()=>{let c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);let u=c.toDataURL('image/jpeg',.9);rresult.innerHTML='<img class="preview" src="'+u+'"><br><a class="btn" download="resized.jpg" href="'+u+'">डाउनलोड</a>';};im.src=URL.createObjectURL(f);}
-function calculate(){try{let v=Function('"use strict";return ('+calcinput.value+')')();calcresult.textContent=v;}catch(e){calcresult.textContent='कृपया सही गणना लिखें।';}}
-function percentCalc(){let a=Number(p1.value),b=Number(p2.value);presult.textContent=b?(a/b*100).toFixed(2)+'%':'कृपया मान भरें';}
-function ageCalc(){let d=new Date(dob.value),n=new Date();if(!dob.value)return;let y=n.getFullYear()-d.getFullYear(),m=n.getMonth()-d.getMonth(),day=n.getDate()-d.getDate();if(day<0){m--;day+=new Date(n.getFullYear(),n.getMonth(),0).getDate()}if(m<0){y--;m+=12}ageresult.textContent=y+' साल, '+m+' महीने, '+day+' दिन';}
-function bmiCalc(){let h=Number(height.value)/100,w=Number(weight.value);if(!h||!w)return;bmiresult.textContent='BMI: '+(w/(h*h)).toFixed(2);}
-function genPass(){let n=Number(plen.value)||16,s='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';let o='';for(let i=0;i<n;i++)o+=s[Math.floor(Math.random()*s.length)];passresult.textContent=o;}
-function toUpper(){casetext.value=casetext.value.toUpperCase()}function toLower(){casetext.value=casetext.value.toLowerCase()}function toTitle(){casetext.value=casetext.value.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}
-function formatJSON(){try{jsonresult.textContent=JSON.stringify(JSON.parse(jsontext.value),null,2)}catch(e){jsonresult.textContent='JSON सही नहीं है।'}}
-function writeMsg(){msgresult.textContent='प्रति: '+mto.value+'\nप्रेषक: '+mfrom.value+'\n\n'+mcontent.value;}
-function searchProducts(){let q=encodeURIComponent(product.value.trim());if(!q)return;productresult.innerHTML='<a class="btn" target="_blank" href="https://www.amazon.in/s?k='+q+'">Amazon पर देखें</a><a class="btn" target="_blank" href="https://www.flipkart.com/search?q='+q+'">Flipkart पर देखें</a><a class="btn" target="_blank" href="https://www.meesho.com/search?q='+q+'">Meesho पर देखें</a><a class="btn" target="_blank" href="https://www.google.com/search?tbm=shop&q='+q+'">Google Shopping पर देखें</a>';}
-function openDownloadService(){let u=durl.value.trim();if(!u)return alert('लिंक डालें');dresult.innerHTML='दिया गया लिंक: '+u+'<br><br><a class="btn" target="_blank" href="'+u+'">मूल लिंक खोलें</a><br><span class="note">यूनिवर्सल डाउनलोडर के लिए सुरक्षित सर्वर/API और संबंधित साइट की अनुमति/शर्तों की जरूरत पड़ती है।</span>';}
-</script>
-</body>
-</html>
+const tools=[
+["image","Image Compressor","Image को target KB में compress करें"],["image","Image Resizer","Width/height बदलें"],["image","Image Cropper","Image crop करें"],["image","Image Converter","JPG/PNG/WebP में बदलें"],
+["qr","QR Code Maker","Text/URL का QR बनाएं"],["calc","Calculator","Basic और scientific calculation"],["calc","Percentage Calculator","Percentage निकालें"],["calc","Discount Calculator","Discount और final price"],["calc","Age Calculator","Age calculate करें"],["calc","Unit Converter","Length, weight, temperature"],
+["text","Word Counter","Words, characters, lines"],["text","Case Converter","UPPER/lower/Title"],["text","JSON Formatter","JSON format/validate"],["text","URL Encoder/Decoder","URL encode/decode"],["text","Base64 Encoder/Decoder","Base64 encode/decode"],["text","Regex Tester","Regex test करें"],
+["code","HTML Editor","Live HTML preview"],["code","CSS Editor","CSS preview"],["code","JS Editor","JavaScript preview"],["code","Code Playground","HTML/CSS/JS एक साथ"],["code","Markdown Editor","Markdown basic preview"],["code","Color Picker","Color चुनें"],["code","CSS Gradient Generator","Gradient CSS बनाएं"],["code","CSS Shadow Generator","Shadow CSS बनाएं"],
+["pdf","Image to PDF","Images से PDF"],["pdf","JPG to PDF","JPG images को PDF"],["pdf","PDF Maker","Text से printable document"],["pdf","Resume Maker","Simple resume बनाएं"],["pdf","Invoice Maker","Invoice बनाएं"],["pdf","Certificate Maker","Certificate बनाएं"],
+["life","To-Do List","Tasks save करें"],["life","Notes","Notes local device में save"],["life","Shopping List","Shopping list"],["life","Random Picker","Random item चुनें"],["life","Timer","Countdown timer"],["life","Stopwatch","Stopwatch"],["life","Countdown","Date countdown"],["life","Password Generator","Secure random password"],
+["business","Business Name Generator","Business names ideas"],["business","Slogan Generator","Slogan ideas"],["business","Profit Calculator","Cost और selling price"],["business","Salary Calculator","Salary breakdown"],["business","Pricing Calculator","Markup/price"],["business","UTM Builder","Marketing UTM URL"],
+["search","Web Search","Google search"],["search","Image Search","Google Images"],["search","News Search","Google News"],["search","Maps","Google Maps"],["search","Wikipedia Search","Wikipedia search"],["property","Property Search","Country/city/property search links"],
+["media","Voice Recorder","Browser में audio record"],["media","Screen Recorder","Screen record"],["media","Text to Speech","Text बोलकर सुनें"],["media","Speech to Text","Microphone से text"],
+["study","Quiz Maker","Simple quiz बनाएं"],["study","Flashcard Maker","Flashcards बनाएं"],["study","Study Planner","Study plan local save"],
+["marketing","Caption Generator","Caption ideas"],["marketing","Hashtag Generator","Hashtag ideas"],["marketing","SEO Title Generator","SEO title ideas"]
+];
+
+const cats=[["all","All"],["image","Image"],["qr","QR"],["calc","Calculators"],["text","Text"],["code","Coding"],["pdf","PDF"],["life","Life"],["business","Business"],["search","Search"],["property","Property"],["media","Media"],["study","Study"],["marketing","Marketing"]];
+let selected="all";
+const grid=document.getElementById("grid"), search=document.getElementById("search"), app=document.getElementById("app"), home=document.getElementById("home");
+
+document.getElementById("cats").innerHTML=cats.map(c=>`<button onclick="filter('${c[0]}')">${c[1]}</button>`).join("");
+function render(){
+ let q=search.value.toLowerCase();
+ grid.innerHTML=tools.filter(t=>(selected=="all"||t[0]==selected)&&(!q||t[1].toLowerCase().includes(q)||t[2].toLowerCase().includes(q))).map((t,i)=>`<div class="card"><h3>${t[1]}</h3><p>${t[2]}</p><button onclick="openTool(${tools.indexOf(t)})">Open Tool</button></div>`).join("");
+}
+function filter(c){selected=c;render()} search.oninput=render; render();
+
+function shell(title,body){home.style.display="none";app.className="tool active";app.innerHTML=`<div class="box"><button class="secondary" onclick="back()">← Back</button><h2>${title}</h2>${body}</div>`}
+function back(){app.className="tool";app.innerHTML="";home.style.display="block"}
+function openTool(i){let [cat,t]=tools[i];let b="";
+if(t=="Image Compressor") b=`<input id="im" type="file" accept="image/*"><input id="kb" type="number" value="500" placeholder="Target KB"><button onclick="compress()">Compress</button><div id="o" class="out"></div>`;
+else if(t=="Image Resizer") b=`<input id="im" type="file" accept="image/*"><input id="w" type="number" placeholder="Width"><input id="h" type="number" placeholder="Height"><button onclick="resizeImg()">Resize</button><div id="o" class="out"></div>`;
+else if(t=="Image Cropper") b=`<input id="im" type="file" accept="image/*"><button onclick="cropImg()">Crop center 1:1</button><div id="o" class="out"></div>`;
+else if(t=="Image Converter") b=`<input id="im" type="file" accept="image/*"><select id="fmt"><option>image/png</option><option>image/jpeg</option><option>image/webp</option></select><button onclick="convertImg()">Convert</button><div id="o" class="out"></div>`;
+else if(t=="QR Code Maker") b=`<input id="qrtext" placeholder="URL या text"><button onclick="makeQR()">Generate QR</button><div id="o" class="out"></div>`;
+else if(["Calculator","Percentage Calculator","Discount Calculator","Age Calculator","Unit Converter","Profit Calculator","Salary Calculator","Pricing Calculator"].includes(t)) b=calcTool(t);
+else if(["Word Counter","Case Converter","JSON Formatter","URL Encoder/Decoder","Base64 Encoder/Decoder","Regex Tester"].includes(t)) b=textTool(t);
+else if(["HTML Editor","CSS Editor","JS Editor","Code Playground","Markdown Editor","Color Picker","CSS Gradient Generator","CSS Shadow Generator"].includes(t)) b=codeTool(t);
+else if(["To-Do List","Notes","Shopping List","Random Picker","Timer","Stopwatch","Countdown","Password Generator"].includes(t)) b=lifeTool(t);
+else if(["Web Search","Image Search","News Search","Maps","Wikipedia Search","Property Search"].includes(t)) b=searchTool(t);
+else if(["Voice Recorder","Screen Recorder","Text to Speech","Speech to Text"].includes(t)) b=mediaTool(t);
+else if(["Business Name Generator","Slogan Generator","Caption Generator","Hashtag Generator","SEO Title Generator"].includes(t)) b=ideasTool(t);
+else if(["Image to PDF","JPG to PDF","PDF Maker","Resume Maker","Invoice Maker","Certificate Maker"].includes(t)) b=pdfTool(t);
+else if(["Quiz Maker","Flashcard Maker","Study Planner"].includes(t)) b=studyTool(t);
+else b=`<p>यह tool registry में है। इसका advanced/API version बाद में जोड़ा जा सकता है।</p>`;
+shell(t,b);
+}
+
+function calcTool(t){
+if(t=="Calculator") return `<input id="expr" placeholder="2*(10+5)/3"><button onclick="calc()">Calculate</button><div id="o"></div>`;
+if(t=="Percentage Calculator") return `<input id="a" type="number" placeholder="Number"><input id="b" type="number" placeholder="Percent"><button onclick="out((+a.value*+b.value)/100)">Calculate</button><div id="o"></div>`;
+if(t=="Discount Calculator") return `<input id="a" type="number" placeholder="Price"><input id="b" type="number" placeholder="Discount %"><button onclick="out(+a.value-(+a.value*+b.value/100))">Final Price</button><div id="o"></div>`;
+if(t=="Age Calculator") return `<input id="d" type="date"><button onclick="age()">Calculate Age</button><div id="o"></div>`;
+if(t=="Unit Converter") return `<input id="a" type="number" placeholder="Value"><select id="u"><option>km-mi</option><option>mi-km</option><option>kg-lb</option><option>lb-kg</option><option>C-F</option><option>F-C</option><option>m-ft</option><option>ft-m</option></select><button onclick="unit()">Convert</button><div id="o"></div>`;
+if(t=="Profit Calculator") return `<input id="a" type="number" placeholder="Cost"><input id="b" type="number" placeholder="Selling price"><button onclick="out('Profit: '+(+b.value-+a.value)+' | Margin: '+(((+b.value-+a.value)/+b.value)*100).toFixed(2)+'%')">Calculate</button><div id="o"></div>`;
+if(t=="Salary Calculator") return `<input id="a" type="number" placeholder="Annual salary"><button onclick="out('Monthly: ₹'+(+a.value/12).toFixed(2)+' | Weekly: ₹'+(+a.value/52).toFixed(2))">Calculate</button><div id="o"></div>`;
+return `<input id="a" type="number" placeholder="Cost"><input id="b" type="number" placeholder="Markup %"><button onclick="out('Selling price: '+(+a.value*(1+ +b.value/100)).toFixed(2))">Calculate</button><div id="o"></div>`;
+}
+function out(x){document.getElementById("o").textContent=x}
+function calc(){try{out(Function('"use strict";return('+expr.value+')')())}catch(e){out("Invalid expression")}}
+function age(){let x=new Date(d.value),n=new Date();let y=n.getFullYear()-x.getFullYear();if(new Date(n.getFullYear(),x.getMonth(),x.getDate())>n)y--;out(y+" years")}
+function unit(){let v=+a.value,x=u.value,m={["km-mi"]:0.621371,["mi-km"]:1.609344,["kg-lb"]:2.20462,["lb-kg"]:0.453592,["m-ft"]:3.28084,["ft-m"]:0.3048};let r=m[x]?v*m[x]:x=="C-F"?v*9/5+32:(v-32)*5/9;out(r)}
+
+function textTool(t){
+if(t=="Word Counter"||t=="Case Converter") return `<textarea id="tx" rows="10" placeholder="Text"></textarea><button onclick="textAct('${t}')">Run</button><div id="o"></div>`;
+if(t=="JSON Formatter") return `<textarea id="tx" rows="10" placeholder='{"hello":"world"}'></textarea><button onclick="jsonAct()">Format</button><div id="o"></div>`;
+if(t=="URL Encoder/Decoder") return `<textarea id="tx" rows="5"></textarea><button onclick="out(encodeURIComponent(tx.value))">Encode</button><button onclick="out(decodeURIComponent(tx.value))">Decode</button><div id="o"></div>`;
+if(t=="Base64 Encoder/Decoder") return `<textarea id="tx" rows="5"></textarea><button onclick="out(btoa(unescape(encodeURIComponent(tx.value))))">Encode</button><button onclick="out(decodeURIComponent(escape(atob(tx.value))))">Decode</button><div id="o"></div>`;
+return `<textarea id="tx" rows="4" placeholder="Text"></textarea><input id="rg" placeholder="Regex e.g. \\d+"><button onclick="out((tx.value.match(new RegExp(rg.value,'g'))||[]).join(', '))">Test</button><div id="o"></div>`;
+}
+function textAct(t){let x=tx.value;if(t=="Word Counter")out(`Words: ${x.trim()?x.trim().split(/\\s+/).length:0} | Characters: ${x.length} | Lines: ${x?x.split(/\\n/).length:0}`);else out(x.toUpperCase()+"\\n\\n"+x.toLowerCase()+"\\n\\n"+x.replace(/\\b\\w/g,m=>m.toUpperCase()))}
+function jsonAct(){try{out(JSON.stringify(JSON.parse(tx.value),null,2))}catch(e){out("Invalid JSON")}}
+
+function codeTool(t){
+if(t=="Color Picker")return `<input id="c" type="color" value="#155eef" oninput="out(c.value)"><div id="o"></div>`;
+if(t=="CSS Gradient Generator")return `<input id="c1" type="color" value="#155eef"><input id="c2" type="color" value="#7f56d9"><button onclick="out('background: linear-gradient(90deg,'+c1.value+','+c2.value+');')">Generate</button><div id="o"></div>`;
+if(t=="CSS Shadow Generator")return `<input id="x" type="number" value="0"><input id="y" type="number" value="4"><input id="b" type="number" value="12"><button onclick="out('box-shadow:'+x.value+'px '+y.value+'px '+b.value+'px #0003;')">Generate</button><div id="o"></div>`;
+if(t=="Markdown Editor")return `<textarea id="tx" rows="12" placeholder="# Heading\\n\\n**bold**"></textarea><button onclick="out(tx.value.replace(/^# (.*)$/gm,'<h2>$1</h2>').replace(/\\*\\*(.*?)\\*\\*/g,'<b>$1</b>').replace(/\\n/g,'<br>'))">Preview</button><div id="o"></div>`;
+if(t=="HTML Editor")return `<textarea id="tx" rows="12"><h1>Hello</h1></textarea><button onclick="preview(tx.value)">Preview</button><div id="o"></div>`;
+if(t=="CSS Editor")return `<textarea id="tx" rows="12">body{font-family:Arial}h1{color:#155eef}</textarea><button onclick="preview('<h1>CSS Preview</h1><style>'+tx.value+'</style>')">Preview</button><div id="o"></div>`;
+if(t=="JS Editor")return `<textarea id="tx" rows="12">document.body.insertAdjacentHTML('beforeend','<p>JS works!</p>')</textarea><button onclick="try{eval(tx.value);out('Executed')}catch(e){out(e.message)}">Run JS</button><div id="o"></div>`;
+return `<textarea id="tx" rows="6"><h1>Hello</h1></textarea><button onclick="preview(tx.value)">Run Playground</button><div id="o"></div>`;
+}
+function preview(s){document.getElementById("o").innerHTML='<iframe style="width:100%;height:300px;border:1px solid #ddd"></iframe>';document.querySelector("#o iframe").srcdoc=s}
+
+function lifeTool(t){
+if(t=="Password Generator")return `<input id="n" type="number" value="16"><button onclick="out(Array.from(crypto.getRandomValues(new Uint32Array(+n.value)),x=>'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%'.at(x%69)).join(''))">Generate</button><div id="o"></div>`;
+if(t=="Random Picker")return `<textarea id="tx" rows="6" placeholder="One item per line"></textarea><button onclick="let a=tx.value.split(/\\n/).filter(Boolean);out(a[Math.floor(Math.random()*a.length)]||'')">Pick</button><div id="o"></div>`;
+if(t=="Timer"||t=="Countdown")return `<input id="n" type="number" value="60"><button onclick="startTimer()">Start</button><div id="o">Ready</div>`;
+if(t=="Stopwatch")return `<button onclick="startSW()">Start</button><button onclick="stopSW()">Stop</button><div id="o">0 s</div>`;
+return `<input id="tx" placeholder="Task / note"><button onclick="saveList('${t}')">Save</button><div id="o"></div>`;
+}
+function saveList(t){let k="fth_"+t,arr=JSON.parse(localStorage.getItem(k)||"[]");arr.push(tx.value);localStorage.setItem(k,JSON.stringify(arr));out(arr.join("\\n"))}
+let timerId,swId,sw=0;function startTimer(){let s=+n.value;clearInterval(timerId);timerId=setInterval(()=>{out(s+" s");if(--s<0)clearInterval(timerId)},1000)}
+function startSW(){clearInterval(swId);swId=setInterval(()=>out((++sw)+" s"),1000)}function stopSW(){clearInterval(swId)}
+
+function searchTool(t){
+let ph=t=="Property Search"?"City / area / country, e.g. Bhopal":"Search";
+return `<input id="q" placeholder="${ph}"><button onclick="doSearch('${t}')">Search</button><div id="o"></div><p class="small">Live listings/prices depend on external providers; this tool opens search sources and does not invent property data.</p>`;
+}
+function doSearch(t){let q=encodeURIComponent(document.getElementById("q").value);let u=t=="Maps"?`https://www.google.com/maps/search/?api=1&query=${q}`:t=="Image Search"?`https://www.google.com/search?tbm=isch&q=${q}`:t=="News Search"?`https://news.google.com/search?q=${q}`:t=="Wikipedia Search"?`https://en.wikipedia.org/w/index.php?search=${q}`:t=="Property Search"?`https://www.google.com/search?q=${q}+property+for+sale+rent`: `https://www.google.com/search?q=${q}`;out(`<a target="_blank" href="${u}">Open results ↗</a>`)}
+
+function mediaTool(t){
+if(t=="Text to Speech")return `<textarea id="tx" rows="6"></textarea><button onclick="speechSynthesis.speak(new SpeechSynthesisUtterance(tx.value))">Speak</button>`;
+if(t=="Speech to Text")return `<button onclick="stt()">Start microphone</button><div id="o"></div>`;
+if(t=="Voice Recorder")return `<button onclick="recStart()">Start</button><button onclick="recStop()">Stop</button><div id="o"></div>`;
+return `<button onclick="screenStart()">Start screen recording</button><div id="o"></div>`;
+}
+let mr, chunks=[];async function recStart(){let s=await navigator.mediaDevices.getUserMedia({audio:true});mr=new MediaRecorder(s);chunks=[];mr.ondataavailable=e=>chunks.push(e.data);mr.start();out("Recording...")}function recStop(){mr.stop();mr.onstop=()=>{let a=document.createElement("a");a.href=URL.createObjectURL(new Blob(chunks,{type:"audio/webm"}));a.download="recording.webm";a.textContent="Download recording";document.getElementById("o").append(a)}}
+async function screenStart(){let s=await navigator.mediaDevices.getDisplayMedia({video:true,audio:true});let r=new MediaRecorder(s),c=[];r.ondataavailable=e=>c.push(e.data);r.onstop=()=>{let a=document.createElement("a");a.href=URL.createObjectURL(new Blob(c,{type:"video/webm"}));a.download="screen.webm";a.textContent="Download screen recording";document.getElementById("o").append(a)};r.start();out("Recording... stop sharing to finish")}
+function stt(){let R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R)return out("Speech recognition इस browser में उपलब्ध नहीं है");let r=new R();r.lang="hi-IN";r.onresult=e=>out(e.results[0][0].transcript);r.start();out("Listening...")}
+
+function ideasTool(t){return `<input id="q" placeholder="Keyword / niche"><button onclick="ideas('${t}')">Generate</button><div id="o"></div>`}
+function ideas(t){let q=document.getElementById("q").value||"business";let a={["Business Name Generator"]:[q+" Hub",q+" Pro",q+" World","Smart "+q,"My "+q],["Slogan Generator"]:[q+" made simple","Better "+q+", every day","Your trusted "+q],["Caption Generator"]:[`Best ${q} vibes ✨`,`Making ${q} simple 🚀`,`Today is a ${q} day!`],["Hashtag Generator"]:[`#${q.replace(/\\s/g,'')}`,`#${q.replace(/\\s/g,'')}Tips`,`#${q.replace(/\\s/g,'')}India`,`#OnlineTools`],["SEO Title Generator"]:[`Best ${q} Tools – Free Online Tools`,`Free ${q} Calculator & Generator`,`${q}: Easy Free Online Tool`]};out(a[t].join("\\n"))}
+
+function pdfTool(t){return `<textarea id="tx" rows="10" placeholder="${t} content"></textarea><button onclick="printDoc()">Print / Save as PDF</button><p class="small">Mobile browser के print dialog में “Save as PDF” चुनें।</p>`}
+function printDoc(){let w=open();w.document.write('<html><body style="font-family:Arial;padding:30px">'+tx.value.replace(/\\n/g,"<br>")+'</body></html>');w.document.close();w.print()}
+function studyTool(t){return `<textarea id="tx" rows="10" placeholder="Question/notes"></textarea><button onclick="saveList('${t}')">Save</button><div id="o"></div>`}
+
+function compress(){let f=im.files[0];if(!f)return out("Image चुनें");let target=(+
